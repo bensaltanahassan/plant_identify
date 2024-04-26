@@ -42,19 +42,39 @@ class CameraPage extends StatelessWidget {
                       Container(
                         padding: const EdgeInsets.only(bottom: 20).r,
                         alignment: Alignment.bottomCenter,
-                        child: GestureDetector(
-                          onTap: () {
-                            controller.image = null;
-                            controller.update();
-                          },
-                          child: CircleAvatar(
-                            radius: 30,
-                            child: Icon(
-                              Icons.close_outlined,
-                              weight: 30.h,
-                              size: 35.h,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            GestureDetector(
+                              onTap: () {
+                                controller.image = null;
+                                controller.update();
+                              },
+                              child: CircleAvatar(
+                                radius: 30,
+                                child: Icon(
+                                  Icons.close_outlined,
+                                  weight: 30.h,
+                                  size: 35.h,
+                                ),
+                              ),
                             ),
-                          ),
+                            SizedBox(width: 20.w),
+                            GestureDetector(
+                              onTap: controller.goToPlanrDetails,
+                              child: Container(
+                                padding: const EdgeInsets.all(5).r,
+                                decoration: BoxDecoration(
+                                    color: Colors.green,
+                                    borderRadius: BorderRadius.circular(4)),
+                                child: const Icon(
+                                  Icons.send_outlined,
+                                  color: Colors.white,
+                                  size: 30,
+                                ),
+                              ),
+                            )
+                          ],
                         ),
                       ),
                     ],
@@ -112,46 +132,88 @@ class CameraPage extends StatelessWidget {
                             ),
                           ),
                           const Spacer(),
-                          GetBuilder<CameraScanController>(
-                              id: 'capture',
-                              builder: (controller) {
-                                return Container(
-                                  alignment: Alignment.bottomCenter,
-                                  padding: const EdgeInsets.only(bottom: 20).r,
-                                  child: AnimatedSwitcher(
-                                    duration: const Duration(milliseconds: 300),
-                                    child: controller.capturing == true
-                                        ? SizedBox(
-                                            height: 70.r,
-                                            width: 70.r,
-                                            child:
-                                                const CircularProgressIndicator(
-                                              backgroundColor: Colors.white,
-                                              valueColor:
-                                                  AlwaysStoppedAnimation<Color>(
-                                                      Colors.green),
-                                            ),
-                                          )
-                                        : GestureDetector(
-                                            onTap: () {
-                                              controller.takePicture();
-                                            },
-                                            child: CircleAvatar(
-                                              radius: 37.r,
-                                              backgroundColor: Colors.green,
-                                              child: CircleAvatar(
-                                                radius: 33.r,
-                                                backgroundColor: Colors.white,
-                                                child: CircleAvatar(
-                                                  radius: 29.r,
-                                                  backgroundColor: Colors.green,
-                                                ),
-                                              ),
-                                            ),
-                                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(bottom: 20).r,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                GestureDetector(
+                                  onTap: () {
+                                    controller.pickImage();
+                                  },
+                                  child: Container(
+                                    padding: const EdgeInsets.all(5).r,
+                                    decoration: BoxDecoration(
+                                        color: Colors.green,
+                                        borderRadius: BorderRadius.circular(4)),
+                                    child: const Icon(
+                                      Icons.image_outlined,
+                                      color: Colors.white,
+                                      size: 30,
+                                    ),
                                   ),
-                                );
-                              }),
+                                ),
+                                SizedBox(width: 20.w),
+                                GetBuilder<CameraScanController>(
+                                    id: 'capture',
+                                    builder: (controller) {
+                                      return Align(
+                                        alignment: Alignment.bottomCenter,
+                                        child: AnimatedSwitcher(
+                                          duration:
+                                              const Duration(milliseconds: 300),
+                                          child: controller.capturing == true
+                                              ? SizedBox(
+                                                  height: 70.r,
+                                                  width: 70.r,
+                                                  child:
+                                                      const CircularProgressIndicator(
+                                                    backgroundColor:
+                                                        Colors.white,
+                                                    valueColor:
+                                                        AlwaysStoppedAnimation<
+                                                                Color>(
+                                                            Colors.green),
+                                                  ),
+                                                )
+                                              : GestureDetector(
+                                                  onTap: () {
+                                                    controller.takePicture();
+                                                  },
+                                                  child: CircleAvatar(
+                                                    radius: 37.r,
+                                                    backgroundColor:
+                                                        Colors.green,
+                                                    child: CircleAvatar(
+                                                      radius: 33.r,
+                                                      backgroundColor:
+                                                          Colors.white,
+                                                      child: CircleAvatar(
+                                                        radius: 29.r,
+                                                        backgroundColor:
+                                                            Colors.green,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                        ),
+                                      );
+                                    }),
+                                SizedBox(width: 20.w),
+                                Opacity(
+                                  opacity: 0,
+                                  child: Container(
+                                    padding: const EdgeInsets.all(5).r,
+                                    child: const Icon(
+                                      Icons.send_outlined,
+                                      color: Colors.white,
+                                      size: 30,
+                                    ),
+                                  ),
+                                )
+                              ],
+                            ),
+                          ),
                         ],
                       ),
                     )),

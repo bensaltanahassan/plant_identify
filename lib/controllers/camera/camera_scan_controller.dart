@@ -1,5 +1,8 @@
 import 'package:camera/camera.dart';
 import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:plant_identify/core/constant/routes.dart';
+import 'package:plant_identify/core/functions/showsnackbar.dart';
 
 class CameraScanController extends GetxController {
   late CameraController controller;
@@ -8,6 +11,28 @@ class CameraScanController extends GetxController {
   bool isError = false;
   XFile? image;
   bool? capturing = false;
+
+  void goToPlanrDetails() {
+    Get.toNamed(AppRoutes.plantDetails);
+  }
+
+  Future<void> pickImage() async {
+    try {
+      final pickedFile =
+          await ImagePicker().pickImage(source: ImageSource.gallery);
+      if (pickedFile != null) {
+        image = XFile(pickedFile.path);
+        update();
+      } else {
+        showCustomSnackBar(title: "Error", message: "No image selected");
+      }
+    } catch (_) {
+      showCustomSnackBar(
+        title: "Error",
+        message: "An error occurred while selecting image",
+      );
+    }
+  }
 
   Future<void> takePicture() async {
     try {
