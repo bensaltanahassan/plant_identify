@@ -29,10 +29,12 @@ class HomePage extends StatelessWidget {
               ],
             );
           }),
-      body: PageView(
-        controller: controller.pageController,
-        onPageChanged: controller.changeIndex,
-        children: const [CameraPage(), HistoryPage()],
+      body: SafeArea(
+        child: PageView(
+          controller: controller.pageController,
+          onPageChanged: controller.changeIndex,
+          children: const [CameraPage(), HistoryPage()],
+        ),
       ),
     );
   }

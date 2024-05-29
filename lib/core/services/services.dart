@@ -2,10 +2,15 @@
 // import 'package:plant_identify/firebase_options.dart';
 // import 'package:shared_preferences/shared_preferences.dart';
 import 'package:get/get.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 
 class MyServices extends GetxService {
-  // late SharedPreferences sharedPreferences;
+  late Box boxHistory;
   Future<MyServices> init() async {
+    await Hive.initFlutter();
+    boxHistory = await Hive.openBox('history');
+    // await boxHistory.clear();
+
     // await Firebase.initializeApp(
     //   options: DefaultFirebaseOptions.currentPlatform,
     // );

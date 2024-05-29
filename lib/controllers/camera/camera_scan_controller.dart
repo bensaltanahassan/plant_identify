@@ -1,6 +1,7 @@
 import 'package:camera/camera.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:plant_identify/controllers/history/history_controller.dart';
 import 'package:plant_identify/core/constant/routes.dart';
 import 'package:plant_identify/core/functions/showsnackbar.dart';
 
@@ -12,8 +13,17 @@ class CameraScanController extends GetxController {
   XFile? image;
   bool? capturing = false;
 
-  void goToPlanrDetails() {
-    Get.toNamed(AppRoutes.plantDetails);
+  late HistoryController historyController;
+
+  void goToPlanrDetails() async {
+    try {
+      Get.toNamed(AppRoutes.plantDetails, arguments: {"image": image});
+    } catch (e) {
+      showCustomSnackBar(
+        title: "Error",
+        message: "An error occurred while saving image",
+      );
+    }
   }
 
   Future<void> pickImage() async {
@@ -118,6 +128,11 @@ class CameraScanController extends GetxController {
   @override
   void onInit() async {
     super.onInit();
+    if (Get.isRegistered<HistoryController>()) {
+      historyController = Get.find<HistoryController>();
+    } else {
+      historyController = Get.put(HistoryController());
+    }
     await initCamera();
   }
 

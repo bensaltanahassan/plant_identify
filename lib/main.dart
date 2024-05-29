@@ -25,7 +25,10 @@ class MyApp extends StatelessWidget {
         return GetMaterialApp(
           debugShowCheckedModeBanner: false,
           title: 'Restaurant Mobile',
-          // theme: localeController.appTheme,
+          theme: ThemeData(
+            scaffoldBackgroundColor: //#F6F6F7
+                const Color(0xFFF6F6F7),
+          ),
           getPages: AppRouter.routes,
           initialBinding: InitialeBindings(),
           // locale: localeController.language,
